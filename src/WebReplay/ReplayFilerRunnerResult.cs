@@ -36,17 +36,21 @@
         /// <param name="lastResponseBodyChecksum">The last response body checksum observed.</param>
         /// <param name="responseTimeStats">The response time statistics</param>
         /// <param name="requestsPerSec">The number of requests per second.</param>
+        /// <param name="testStartTime">The approximate timestamp when the first iteration started.</param>
+        /// <param name="testEndTime">The approximate timestamp when all iterations finished.</param>
         public ReplayFilerRunnerResult(
-            string description, 
-            string baseUri, 
-            string uri, 
-            int iterations, 
-            int concurrentRequests, 
-            int lastStatusCode, 
-            long lastResponseBodySize, 
-            string lastResponseBodyChecksum, 
+            string description,
+            string baseUri,
+            string uri,
+            int iterations,
+            int concurrentRequests,
+            int lastStatusCode,
+            long lastResponseBodySize,
+            string lastResponseBodyChecksum,
             PercentileStats<TimeSpan> responseTimeStats,
-            double requestsPerSec)
+            double requestsPerSec,
+            DateTimeOffset testStartTime,
+            DateTimeOffset testEndTime)
         {
             this.responseTimeStats = responseTimeStats;
             this.Description = description;
@@ -58,6 +62,8 @@
             this.LastResponseBodySize = lastResponseBodySize;
             this.LastResponseBodyChecksum = lastResponseBodyChecksum;
             this.RequestsPerSec = requestsPerSec;
+            this.TestStartTime = testStartTime;
+            this.TestEndTime = testEndTime;
         }
 
         #endregion
@@ -167,6 +173,31 @@
             get
             {
                 return this.responseTimeStats.Perc95;
+            }
+        }
+
+        /// <summary>
+        /// Gets the approximate timestamp when the first HTTP request to the URI went out.
+        /// For ordering and historical purposes.
+        /// </summary>
+        public DateTimeOffset TestStartTime { get; private set; }
+
+        /// <summary>
+        /// Gets the approximate timestamp when the all HTTP request to the URI completed.
+        /// For ordering and historical purposes.
+        /// </summary>
+        public DateTimeOffset TestEndTime { get; private set; }
+
+        /// <summary>
+        /// Gets the approximate duration of the test run for the URI.
+        /// Might be a better indicator of how fast or slow things are than
+        /// requests per second and the absolute response times.
+        /// </summary>
+        public TimeSpan TestDuration
+        {
+            get
+            {
+                return this.TestEndTime - this.TestStartTime;
             }
         }
 

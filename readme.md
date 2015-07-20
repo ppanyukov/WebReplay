@@ -84,7 +84,10 @@ The output is in CSV format with these columns:
 |---------------------|----------------------------------------------------------------------|
 | Sequence            | the sequence number of the request                                   |
 | Iterations          | the number of iterations as per the -i parameter                     |
-| Cuncurrent Requests | the number of concurrent users as per -c parameter                   |
+| Concurrent Requests | the number of concurrent users as per -c parameter                   |
+| TestStartTimeUtc    | the timestamp when the first iteration started, approx, in UTC       |
+| TestEndTimeUtc      | the timestamp when the last iteration finished, approx, in UTC       |
+| TestDurationMs      | the time (in ms) it took to run all iterations                       |
 | Status Code         | the last seen HTTP status code of the response                       |
 | Response Size       | the response body size of the last seen HTTP response (if available) |
 | Response Checksum   | the MD5 checksum of the last see HTTP response's body (if available) |

@@ -63,6 +63,7 @@ namespace WebReplay
 
                     var numberOfRequests = iterations * concurrentRequests;
                     var allResults = new List<UriRunnerResult>(capacity: numberOfRequests);
+                    var startTimeUtc = DateTimeOffset.UtcNow;
 
                     // Exec same URI with the specified concurrency level
                     var uris = Enumerable.Repeat(uri, concurrentRequests).ToArray();
@@ -77,6 +78,7 @@ namespace WebReplay
                         allResults.AddRange(runUrisResults);
                     }
 
+                    var endTimeUtc = DateTimeOffset.UtcNow;
                     var requestsPerSec = (double)numberOfRequests / sw.Elapsed.TotalSeconds;
                     var responseTimes = allResults.Select(r => r.ResponseTime);
                     var percentiles = new PercentileStats<TimeSpan>(responseTimes);
@@ -93,7 +95,9 @@ namespace WebReplay
                         description: replayFile.Description, 
                         baseUri: replayFile.BaseUri, 
                         uri: uri,
-                        requestsPerSec: requestsPerSec);
+                        requestsPerSec: requestsPerSec,
+                        testStartTime: startTimeUtc,
+                        testEndTime: endTimeUtc);
 
                     if (callback != null)
                     {

@@ -98,7 +98,7 @@
             }
 
             // The CSV header with field names.
-            const string Header = "Sequence, Iterations, Cuncurrent Requests, Status Code, Response Size, Response Checksum, Req/Sec, min, perc50, perc75, perc90, perc95, max, description, baseUri, uri";
+            const string Header = "Sequence, Iterations, Concurrent Requests, TestStartTimeUtc, TestEndTimeUtc, TestDurationMs, Status Code, Response Size, Response Checksum, Req/Sec, min, perc50, perc75, perc90, perc95, max, description, baseUri, uri";
             writeReportLine(Header);
 
             // The callback for completed HTTP request. We use it here to
@@ -110,10 +110,13 @@
                 sequenceNumber++;
 
                 var line = string.Format(
-                    "{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}", 
+                    "{0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}, {11}, {12}, {13}, {14}, {15}, {16}, {17}, {18}", 
                     sequenceNumber.ToString("G"), 
                     r.Iterations.ToString("G"), 
-                    r.ConcurrentRequests.ToString("G"), 
+                    r.ConcurrentRequests.ToString("G"),
+                    r.TestStartTime.ToUniversalTime().ToString("yyy-mm-dd HH:MM:ss.fff"),
+                    r.TestEndTime.ToUniversalTime().ToString("yyy-mm-dd HH:MM:ss.fff"),
+                    r.TestDuration.TotalMilliseconds.ToString("F"),
                     r.LastStatusCode.ToString("G"), 
                     r.LastResponseBodySize.ToString("G"), 
                     r.LastResponseBodyChecksum, 
