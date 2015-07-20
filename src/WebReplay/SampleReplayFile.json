@@ -1,0 +1,18 @@
+﻿{
+    "baseuri": "http://%COMPUTERNAME%", 
+    "headers": {
+        "Connection": "Keep-Alive", 
+        "Accept-Language": "en-GB,en;q=0.5", 
+        "Accept-Encoding": "gzip, deflate", 
+        "Pragma": "no-cache", 
+        "Cookie": "cookie1=value1; cookie2=value2", 
+        "Accept": "text/html, application/xhtml+xml, */*", 
+        "User-Agent": "Mozilla/5.0 (Windows NT 6.3; WOW64; Trident/7.0; rv:11.0) like Gecko"
+    }, 
+    "name": "short name, not currently used anywhere",
+    "description": "Give a good description, it will show in the reports",
+    "uris": [
+        "/you can use environmental variables anywhere like this %DIR%/bar", 
+        "/zoo/lala?whatever"
+    ]
+}
